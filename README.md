@@ -10,8 +10,10 @@ Use it, modify it and distribute it without warranty or implied warranty.
 #### INSTALL
 
 ```git clone https://github.com/RandomStorm/passive-spider.git```
+
 ```cd passive-spider```
-```gem install bundle && bundler install```
+
+```gem install bundler && bundle install```
 
 Place your search engine API keys in the api_keys.config file. Each search engine API has different usage limits and pricing, refer to them for this information. Do not share your keys.
 
