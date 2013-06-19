@@ -5,7 +5,7 @@ class ModuleHelper
   end
 
   def self.file_extentions
-    %w(pdf log txt doc docx csv xls xlsx bak back backup zip tar tar.gz conf config pwd sql)
+    %w(pdf log txt db dat doc docx csv xls xlsx bak back backup zip tar tar.gz cfg conf config pwd sql ini inc old passwd xml mdb)
   end
 
   def self.keywords
@@ -13,7 +13,7 @@ class ModuleHelper
   end
 
   def self.url_keywords
-    %w(admin login phpmyadmin readme phpinfo)
+    %w(admin login phpmyadmin readme phpinfo config)
   end
 
   def self.domain_to_ip( domain )
