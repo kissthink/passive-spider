@@ -13,7 +13,7 @@ class ModuleHelper
   end
 
   def self.url_keywords
-    %w(admin login)
+    %w(admin login phpmyadmin readme phpinfo)
   end
 
   def self.domain_to_ip( domain )
