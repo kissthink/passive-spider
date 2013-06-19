@@ -81,7 +81,13 @@ class Bing
 
   def request( url )
     response = Typhoeus.get( url, :headers => { "Authorization" => "Basic #{@authorization}" } )
-    JSON.parse( response.body )['d']['results']
+    
+    if response.body =~ /The authorization type you provided is not supported/
+      puts '[ERROR] Did you put your API key in the api_keys.config file? or is it incorrect?'
+      exit
+    else
+      JSON.parse( response.body )['d']['results']
+    end
   end
 
   def api_url( query, page )
