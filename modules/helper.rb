@@ -5,7 +5,7 @@ class ModuleHelper
   end
 
   def self.file_extentions
-    %w(pdf log txt doc docx csv xls xlsx bak back backup zip tar tar.gz conf config)
+    %w(pdf log txt doc docx csv xls xlsx bak back backup zip tar tar.gz conf config pwd)
   end
 
   def self.keywords
