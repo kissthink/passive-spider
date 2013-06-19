@@ -97,3 +97,5 @@ bing.get_keywords( domain ) if keywords
 
 # output output mofo
 ModuleHelper.output.stdout
+
+exit
