@@ -13,12 +13,9 @@ class SpiderConfig
 
   def self.api_key
     keys = {}
-    
-    config_file.split("\n").each do |api_key|
-    	key   = api_key.split("=>")[0].downcase.strip
-    	value = api_key.split("=>")[1].strip
 
-      keys[key.to_sym] = value
+    JSON.parse( config_file ).each_pair do |engine, api_key|
+      keys[engine.downcase.to_sym] = api_key
     end
 
     keys
