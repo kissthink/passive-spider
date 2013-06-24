@@ -13,7 +13,7 @@ class LibHelper
     puts "Shhhhh... by Ryan 'ethicalhack3r' Dewhurst"
     puts "Part of The RandomStorm Open Source Initiative"
     puts
-	end
+  end
 
   def help
     puts "Description: Passive Spider uses search engines to find interesting information about a target domain."
@@ -33,7 +33,7 @@ class LibHelper
     puts "--urlkeywords       Find page URLs that have 'interesting' keywords in them."
     puts "--keywords          Find page content that have 'interesting' keywords in them."
     puts "--help     || -h    This output."
-	end
+  end
 
   def usage
     puts "Usage:"
