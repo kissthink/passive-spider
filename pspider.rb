@@ -1,29 +1,14 @@
 #!/usr/bin/env ruby
 
 # require gems and needed files
-require 'base64'
-require 'getoptlong'
-require 'uri'
-require 'socket'
-require_relative 'lib/helper'
-require_relative 'lib/config'
-require_relative 'lib/output'
-require_relative 'modules/helper'
-require_relative 'modules/bing'
+require_relative 'lib/environment'
+Environment.require_all
 
 # initialize helper
 libhelper = LibHelper.new
 
 # output banner
 libhelper.banner
-
-# check third party gems
-begin
-  require 'typhoeus'
-  require 'json'
-rescue => e
-  puts '[ERROR] Missing gems. Try: gem install bundler && bundle install'
-end
 
 # no user input
 if ARGV.empty?
