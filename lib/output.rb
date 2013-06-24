@@ -3,20 +3,20 @@ class Output
   attr_accessor :urls, :files, :ip_neighbours, :keywords, :url_keywords
 
   def initialize
-  	@urls          = []
-  	@files         = []
-  	@ip_neighbours = []
+    @urls          = []
+    @files         = []
+    @ip_neighbours = []
     @keywords      = {}
     @url_keywords  = []
   end
 
   def stdout
-  	puts "[+] URLs #{parsed_urls.size}"
-  	puts
-  	puts parsed_urls
-  	puts
-  	puts "[+] Files #{parsed_files.size}"
-  	puts
+    puts "[+] URLs #{parsed_urls.size}"
+    puts
+    puts parsed_urls
+    puts
+    puts "[+] Files #{parsed_files.size}"
+    puts
     puts parsed_files
     puts
     puts "[+] IP Neighbours #{parsed_ip_neighbours.size}"
