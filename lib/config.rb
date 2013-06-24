@@ -3,11 +3,14 @@ class SpiderConfig
   CONFIG_FILE = 'api_keys.config'
 
   def self.config_file
-    if File.exists?( CONFIG_FILE )
-      File.open( CONFIG_FILE ).read
-    else
+    if ! File.exists?( CONFIG_FILE )
       puts "[ERROR] Config file #{CONFIG_FILE} does not exist."
       exit
+    elsif File.symlink?( CONFIG_FILE )
+      puts "[ERROR] Config file #{CONFIG_FILE} is a symlink."
+      exit
+    else
+      File.open( CONFIG_FILE ).read
     end
   end
 
