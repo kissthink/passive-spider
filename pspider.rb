@@ -22,16 +22,16 @@ begin
   require 'typhoeus'
   require 'json'
 rescue => e
-	puts '[ERROR] Missing gems. Try: gem install bundler && bundle install'
+  puts '[ERROR] Missing gems. Try: gem install bundler && bundle install'
 end
 
 # no user input
 if ARGV.empty?
-	libhelper.help
-	puts
-	libhelper.usage
-	puts
-	exit
+  libhelper.help
+  puts
+  libhelper.usage
+  puts
+  exit
 end
 
 # default vars
