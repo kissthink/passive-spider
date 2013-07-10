@@ -24,8 +24,19 @@ class ModuleHelper
     @output ||= Output.new
   end
 
-  def self.same_host?( input_host, result_host )
-    input_host === result_host
+  def self.same_domain?( target, result )
+    target.domain === result.domain
+  end
+
+  def self.subdomain?( target, result )
+    if result.subdomain
+      target.domain === result.domain && target.subdomain != result.subdomain
+    end
+  end
+
+  def self.parse_domain( domain )
+    domain = URI( domain ).host
+    PublicSuffix.parse( domain ) if PublicSuffix.valid?( domain )
   end
 
 end

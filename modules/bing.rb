@@ -1,5 +1,7 @@
 class Bing
 
+  # TODO: Parse subdomains from the results of other searches.
+
   def initialize( pages )
     @url           = 'https://api.datamarket.azure.com/Bing/Search/Web?'
     @api_key       = SpiderConfig.api_key[:bing]
@@ -10,7 +12,8 @@ class Bing
   def get_all( domain )
     get_all_pages( domain )
     get_all_files( domain )
-    get_domains( domain )
+    get_ip_neighbours( domain )
+    get_subdomains( domain )
     get_url_keywords( domain )
     get_keywords( domain )
   end
@@ -39,18 +42,40 @@ class Bing
     end
   end
 
-  def get_domains( domain )
-    ip = ModuleHelper.domain_to_ip( domain )
+  def get_ip_neighbours( domain )
+    ip     = ModuleHelper.domain_to_ip( domain )
+    domain = PublicSuffix.parse( domain )
 
     @pages.times do |page|
       results = request( api_url( "ip:#{ip}", 0 ) )
 
       unless results.empty?
         results.each do |result|
-          result_host = URI(result['Url']).host
-          ModuleHelper.output.ip_neighbours << result_host if ! ModuleHelper.same_host?( domain, result_host )
-        end
+          result_domain = ModuleHelper.parse_domain( result['Url'] )
 
+          if ! ModuleHelper.same_domain?( domain, result_domain )
+            ModuleHelper.output.ip_neighbours << result_domain.to_s
+          end       
+        end
+      end
+    end
+  end
+
+  def get_subdomains( domain )
+    ip     = ModuleHelper.domain_to_ip( domain )
+    domain = PublicSuffix.parse( domain )
+
+    @pages.times do |page|
+      results = request( api_url( "ip:#{ip}", 0 ) )
+
+      unless results.empty?
+        results.each do |result|
+          result_domain = ModuleHelper.parse_domain( result['Url'] )
+
+          if ModuleHelper.subdomain?(domain, result_domain)
+            ModuleHelper.output.subdomains << result_domain.to_s
+          end
+        end
       end
     end
   end
@@ -86,7 +111,10 @@ class Bing
       puts '[ERROR] Did you put your API key in the api_keys.config file? or is it incorrect?'
       exit
     elsif response.code == 403
-      puts '[ERROR] Your Key seems to work but have you subscribed to the Bing Search API?'
+      puts '[ERROR] Your Key seems to work but have you subscribed to the "Bing Search API"?'
+      exit
+    elsif response.body =~ /Insufficient balance for the subscribed offer in user's account/
+      puts '[ERROR] You have run out of free API queries.'
       exit
     else
       JSON.parse( response.body )['d']['results']

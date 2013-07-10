@@ -25,8 +25,10 @@ class Environment
     begin
       require 'typhoeus'
       require 'json'
+      require 'public_suffix'
     rescue => e
-      puts '[ERROR] Missing gems. Try: gem install bundler && bundle install'
+      puts '[ERROR] Missing gem/s. Try: gem install bundler && bundle install'
+      puts e
       exit
     end
   end

@@ -26,6 +26,7 @@ all          = nil
 all_pages    = nil
 all_files    = nil
 neighbours   = nil
+subdomains   = nil
 url_keywords = nil
 keywords     = nil
 
@@ -37,6 +38,7 @@ opts = GetoptLong.new(
 	[ '--allpages', GetoptLong::NO_ARGUMENT ],
 	[ '--allfiles', GetoptLong::NO_ARGUMENT ],
 	[ '--neighbours', GetoptLong::NO_ARGUMENT ],
+  [ '--subdomains', GetoptLong::NO_ARGUMENT ],
 	[ '--urlkeywords', GetoptLong::NO_ARGUMENT ],
 	[ '--keywords', GetoptLong::NO_ARGUMENT ],
   [ '--help', '-h', GetoptLong::NO_ARGUMENT ]
@@ -57,6 +59,8 @@ opts.each do |opt, arg|
     	all_files = true
     when '--neighbours'
     	neighbours = true
+    when '--subdomains'
+      subdomains = true
     when '--urlkeywords'
     	url_keywords = true
     when '--keywords'
@@ -66,8 +70,13 @@ opts.each do |opt, arg|
   end
  end
 
+if ! PublicSuffix.valid?( domain )
+  puts "[ERROR] The domain supplied (#{domain}) is not a valid domain!"
+  exit
+end
+
 # make all default if no other options selected
-all = true if ! all && ! all_pages && ! all_files && ! neighbours && ! url_keywords && ! keywords 
+all = true if ! all && ! all_pages && ! all_files && ! neighbours && ! subdomains && ! url_keywords && ! keywords 
 
 # initialize objects
 bing = Bing.new( pages )
@@ -76,7 +85,8 @@ bing = Bing.new( pages )
 bing.get_all( domain ) if all
 bing.get_all_pages( domain ) if all_pages
 bing.get_all_files( domain ) if all_files
-bing.get_domains( domain ) if neighbours
+bing.get_ip_neighbours( domain ) if neighbours
+bing.get_subdomains( domain ) if subdomains
 bing.get_url_keywords( domain ) if url_keywords
 bing.get_keywords( domain ) if keywords
 

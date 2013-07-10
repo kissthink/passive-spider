@@ -1,11 +1,12 @@
 class Output
 
-  attr_accessor :urls, :files, :ip_neighbours, :keywords, :url_keywords
+  attr_accessor :urls, :files, :ip_neighbours, :subdomains, :keywords, :url_keywords
 
   def initialize
     @urls          = []
     @files         = []
     @ip_neighbours = []
+    @subdomains    = []
     @keywords      = {}
     @url_keywords  = []
   end
@@ -22,6 +23,10 @@ class Output
     puts "[+] IP Neighbours #{parsed_ip_neighbours.size}"
     puts
     puts parsed_ip_neighbours
+    puts
+    puts "[+] Subdomains #{parsed_subdomains.size}"
+    puts
+    puts parsed_subdomains
     puts
     puts "[+] Interesting URL Keywords #{parsed_url_keywords.size}"
     puts
@@ -51,6 +56,10 @@ class Output
 
   def parsed_ip_neighbours
     @ip_neighbours.uniq
+  end
+
+  def parsed_subdomains
+   @subdomains.uniq
   end
 
   def parsed_url_keywords

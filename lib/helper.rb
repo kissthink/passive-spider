@@ -1,7 +1,7 @@
 class LibHelper
 
   def version
-   '0.1'
+   '0.2'
   end
 
   def banner
@@ -50,5 +50,4 @@ class LibHelper
     puts "- Run the IP Neighbour check against the given domain..."
     puts "ruby pspider.rb -d www.example.com --neighbours"
   end
-
 end
