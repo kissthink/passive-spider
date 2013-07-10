@@ -27,6 +27,7 @@ Tested on Mac OS X with Ruby 1.9.3.
     --allpages          Find all pages related to the domain, limited by the --pages option.
     --allfiles          Find all file types related to the domain, limited to the ones configured.
     --neighbours        Find other domains that are on the same IP address.
+    --subdomains        Find subdomains of the target domain.
     --urlkeywords       Find page URLs that have 'interesting' keywords in them.
     --keywords          Find page content that have 'interesting' keywords in them.
     --help     || -h    This output.
