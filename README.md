@@ -1,7 +1,7 @@
 passive-spider
 ==============
 
-Passive Spider uses search engines to find interesting information about a target domain.
+Passive Spider uses search engines (currently only Bing supported) to find interesting information about a target domain.
 
 #### LICENSE
 
