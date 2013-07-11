@@ -1,7 +1,7 @@
 class Bing
 
   def initialize( target_domain, pages )
-    @url           = 'https://api.datamarket.azure.com/Bing/Search/Web?'
+    @api_url       = 'https://api.datamarket.azure.com/Bing/Search/Web?'
     @api_key       = SpiderConfig.api_key[:bing]
     @authorization = Base64.encode64("#{@api_key}:#{@api_key}").gsub("\n", '')
     @pages         = pages || ModuleHelper.default_pages
@@ -130,7 +130,7 @@ class Bing
   end
 
   def api_url( query, page )
-    @url + URI.encode("Query='#{query}'&$format=json&$skip=#{page}")
+    @api_url + URI.encode("Query='#{query}'&$format=json&$skip=#{page}")
   end
 
 end
