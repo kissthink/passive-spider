@@ -26,7 +26,6 @@ all          = nil
 all_pages    = nil
 all_files    = nil
 neighbours   = nil
-subdomains   = nil
 url_keywords = nil
 keywords     = nil
 
