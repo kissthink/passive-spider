@@ -1,6 +1,6 @@
 class Output
 
-  attr_accessor :urls, :files, :ip_neighbours, :subdomains, :keywords, :url_keywords
+  attr_accessor :urls, :files, :ip_neighbours, :subdomains, :keywords, :url_keywords, :query_count
 
   def initialize
     @urls          = []
@@ -9,6 +9,7 @@ class Output
     @subdomains    = {}
     @keywords      = {}
     @url_keywords  = []
+    @query_count   = 0
   end
 
   def stdout
@@ -47,6 +48,8 @@ class Output
       end
     end
 
+    puts
+    puts "[+] Number of API queries made: #{@query_count}"
     puts
   end
 

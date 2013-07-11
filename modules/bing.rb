@@ -113,6 +113,7 @@ class Bing
   end
 
   def request( url )
+    ModuleHelper.output.query_count += 1
     response = Typhoeus.get( url, :headers => { "Authorization" => "Basic #{@authorization}" } )
 
     if response.body =~ /The authorization type you provided is not supported/
