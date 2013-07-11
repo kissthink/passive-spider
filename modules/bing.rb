@@ -6,7 +6,7 @@ class Bing
     @authorization = Base64.encode64("#{@api_key}:#{@api_key}").gsub("\n", '')
     @pages         = pages || ModuleHelper.default_pages
     @target_domain = target_domain
-    @result_urls    = []
+    @result_urls   = []
   end
 
   def get_all
@@ -90,12 +90,12 @@ class Bing
 
           if ! ModuleHelper.same_domain?( domain, result_domain )
             ModuleHelper.output.ip_neighbours << result_domain.to_s
-          elsif ModuleHelper.subdomain?(domain, result_domain)
-            ModuleHelper.output.subdomains << result_domain.to_s
           end     
         end
       end
     end
+
+    get_subdomains_from_results
   end
 
   def get_subdomains_from_results
@@ -105,7 +105,7 @@ class Bing
       result_domain = ModuleHelper.parse_domain( result )
 
       if ModuleHelper.subdomain?( target_domain, result_domain )
-        ModuleHelper.output.subdomains << result_domain.to_s
+        ModuleHelper.output.subdomains[result_domain.to_s] = ModuleHelper.domain_to_ip( result_domain.to_s )
       end
     end
 

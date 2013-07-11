@@ -6,33 +6,37 @@ class Output
     @urls          = []
     @files         = []
     @ip_neighbours = []
-    @subdomains    = []
+    @subdomains    = {}
     @keywords      = {}
     @url_keywords  = []
   end
 
   def stdout
-    puts "[+] URLs #{parsed_urls.size}"
+    puts "[+] URLs: #{parsed_urls.size}"
     puts
     puts parsed_urls
     puts
-    puts "[+] Files #{parsed_files.size}"
+    puts "[+] Files: #{parsed_files.size}"
     puts
     puts parsed_files
     puts
-    puts "[+] IP Neighbours #{parsed_ip_neighbours.size}"
+    puts "[+] IP Neighbours: #{parsed_ip_neighbours.size}"
     puts
     puts parsed_ip_neighbours
     puts
-    puts "[+] Subdomains #{parsed_subdomains.size}"
+    puts "[+] Subdomains: #{subdomains.size}"
     puts
-    puts parsed_subdomains
+    
+    subdomains.each_pair do |domain, ip|
+      puts "#{domain} #{ip}"
+    end
+
     puts
-    puts "[+] Interesting URL Keywords #{parsed_url_keywords.size}"
+    puts "[+] Interesting URL Keywords: #{url_keywords.size}"
     puts
-    puts parsed_url_keywords
+    puts url_keywords
     puts
-    puts "[+] Interesting Keywords #{keywords.size}"
+    puts "[+] Interesting Keywords: #{keywords.size}"
 
     keywords.each_pair do |url, data|
       puts
@@ -56,14 +60,6 @@ class Output
 
   def parsed_ip_neighbours
     @ip_neighbours.uniq
-  end
-
-  def parsed_subdomains
-   @subdomains.uniq
-  end
-
-  def parsed_url_keywords
-    @url_keywords.uniq
   end
 
 end
