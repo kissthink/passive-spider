@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe '.LibHelper' do
 
-	before :all do
-		@helper = LibHelper.new
-	end
+  before :all do
+    @helper = LibHelper.new
+  end
 
   describe '#version' do
     it 'should return the version' do

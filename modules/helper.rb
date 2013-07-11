@@ -5,7 +5,7 @@ class ModuleHelper
   end
 
   def self.file_extentions
-    %w(pdf log txt db dat doc docx csv xls xlsx bak back backup zip tar tar.gz cfg conf config pwd sql ini inc old passwd xml mdb)
+    %w(pdf log txt db dat doc docx csv xls xlsx xsd bak back backup zip tar tar.gz cfg conf config pwd sql ini inc old passwd xml mdb)
   end
 
   def self.keywords

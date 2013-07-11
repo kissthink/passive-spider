@@ -1,50 +1,85 @@
 class Bing
 
-  # TODO: Parse subdomains from the results of other searches.
-
-  def initialize( pages )
+  def initialize( target_domain, pages )
     @url           = 'https://api.datamarket.azure.com/Bing/Search/Web?'
     @api_key       = SpiderConfig.api_key[:bing]
     @authorization = Base64.encode64("#{@api_key}:#{@api_key}").gsub("\n", '')
     @pages         = pages || ModuleHelper.default_pages
+    @target_domain = target_domain
+    @result_urls    = []
   end
 
-  def get_all( domain )
-    get_all_pages( domain )
-    get_all_files( domain )
-    get_ip_neighbours( domain )
-    get_subdomains( domain )
-    get_url_keywords( domain )
-    get_keywords( domain )
+  def get_all
+    get_all_pages
+    get_all_files
+    get_ip_neighbours
+    get_url_keywords
+    get_keywords
   end
 
-  def get_all_pages( domain )
+  def get_all_pages
     @pages.times do |page|
-      results = request( api_url( "site:#{domain}", page ) )
+      results = request( api_url( "site:#{@target_domain}", page ) )
 
       unless results.empty?
         results.each do |result|
           ModuleHelper.output.urls << result['Url']
+          @result_urls << result['Url']
         end
       end
     end
+
+    get_subdomains_from_results
   end
 
-  def get_all_files( domain )
+  def get_all_files
     ModuleHelper.file_extentions.each do |extention|
-      results = request( api_url( "site:#{domain} ext:#{extention}", 0 ) )
+      results = request( api_url( "site:#{@target_domain} ext:#{extention}", 0 ) )
 
       unless results.empty?
         results.each do |result|
           ModuleHelper.output.files << result['Url']
+          @result_urls << result['Url']
         end
       end
     end
+
+    get_subdomains_from_results
   end
 
-  def get_ip_neighbours( domain )
-    ip     = ModuleHelper.domain_to_ip( domain )
-    domain = PublicSuffix.parse( domain )
+  def get_url_keywords
+    ModuleHelper.url_keywords.each do |keyword|
+      results = request( api_url( "site:#{@target_domain} -instreamset:(url):groups #{keyword}", 0 ) )
+
+      unless results.empty?
+        results.each do |result|
+          ModuleHelper.output.url_keywords << result['Url']
+          @result_urls << result['Url']
+        end
+      end
+    end
+
+    get_subdomains_from_results
+  end
+
+  def get_keywords
+    ModuleHelper.keywords.each do |keyword|
+      results = request( api_url( "site:#{@target_domain} #{keyword}", 0 ) )
+
+      unless results.empty?
+        results.each do |result|
+          ModuleHelper.output.keywords[result['Url']] = { keyword => result['Description'] }
+          @result_urls << result['Url']
+        end
+      end
+    end
+
+    get_subdomains_from_results
+  end
+
+  def get_ip_neighbours
+    ip     = ModuleHelper.domain_to_ip( @target_domain )
+    domain = PublicSuffix.parse( @target_domain )
 
     @pages.times do |page|
       results = request( api_url( "ip:#{ip}", 0 ) )
@@ -55,53 +90,26 @@ class Bing
 
           if ! ModuleHelper.same_domain?( domain, result_domain )
             ModuleHelper.output.ip_neighbours << result_domain.to_s
-          end       
-        end
-      end
-    end
-  end
-
-  def get_subdomains( domain )
-    ip     = ModuleHelper.domain_to_ip( domain )
-    domain = PublicSuffix.parse( domain )
-
-    @pages.times do |page|
-      results = request( api_url( "ip:#{ip}", 0 ) )
-
-      unless results.empty?
-        results.each do |result|
-          result_domain = ModuleHelper.parse_domain( result['Url'] )
-
-          if ModuleHelper.subdomain?(domain, result_domain)
+          elsif ModuleHelper.subdomain?(domain, result_domain)
             ModuleHelper.output.subdomains << result_domain.to_s
-          end
+          end     
         end
       end
     end
   end
 
-  def get_url_keywords( domain )
-    ModuleHelper.url_keywords.each do |keyword|
-      results = request( api_url( "site:#{domain} -instreamset:(url):groups #{keyword}", 0 ) )
+  def get_subdomains_from_results
+    target_domain = PublicSuffix.parse( @target_domain )
 
-      unless results.empty?
-        results.each do |result|
-          ModuleHelper.output.url_keywords << result['Url']
-        end
+    @result_urls.each do |result|
+      result_domain = ModuleHelper.parse_domain( result )
+
+      if ModuleHelper.subdomain?( target_domain, result_domain )
+        ModuleHelper.output.subdomains << result_domain.to_s
       end
     end
-  end
 
-  def get_keywords( domain )
-    ModuleHelper.keywords.each do |keyword|
-      results = request( api_url( "site:#{domain} #{keyword}", 0 ) )
-
-      unless results.empty?
-        results.each do |result|
-          ModuleHelper.output.keywords[result['Url']] = { keyword => result['Description'] }
-        end
-      end
-    end
+    @result_urls.clear
   end
 
   def request( url )
