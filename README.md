@@ -22,7 +22,7 @@ Tested on Mac OS X with Ruby 1.9.3.
 #### ARGUMENTS
 
     --domain   || -d    The domain you would like to use as a target.
-    --pages    || -p    The number of pages you would like to hit from the search engine. Default: 20
+    --pages    || -p    The number of pages you would like to hit from the search engine. Default: 10
     --all      || -a    Do all of the spidering checks. This is the default check.
     --allpages          Find all pages related to the domain, limited by the --pages option.
     --allfiles          Find all file types related to the domain, limited to the ones configured.
