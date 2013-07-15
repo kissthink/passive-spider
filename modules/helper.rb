@@ -1,7 +1,7 @@
 class ModuleHelper
 
   def self.default_pages
-    20
+    10
   end
 
   def self.file_extentions
