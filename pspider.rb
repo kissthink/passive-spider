@@ -71,6 +71,11 @@ if ! PublicSuffix.valid?( domain )
   exit
 end
 
+if ! libhelper.domain_exists?( domain )
+  puts "[ERROR] The domain supplied (#{domain}) does not exist!"
+  exit
+end
+
 # make all default if no other options selected
 all = true if ! all && ! all_pages && ! all_files && ! neighbours && ! url_keywords && ! keywords 
 

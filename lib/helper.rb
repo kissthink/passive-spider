@@ -50,4 +50,8 @@ class LibHelper
     puts "- Run the IP Neighbour check against the given domain..."
     puts "ruby pspider.rb -d www.example.com --neighbours"
   end
+
+  def domain_exists?( domain )
+    exists = true if IPSocket::getaddress( domain ) rescue exists = false
+  end
 end
