@@ -123,7 +123,7 @@ class Bing
       puts '[ERROR] Your Key seems to work but have you subscribed to the "Bing Search API"?'
       exit
     elsif response.body =~ /Insufficient balance for the subscribed offer in user's account/
-      puts '[ERROR] You have run out of free API queries.'
+      puts '[ERROR] You have run out of API queries.'
       exit
     else
       JSON.parse( response.body )['d']['results']

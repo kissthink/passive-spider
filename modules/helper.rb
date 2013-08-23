@@ -35,7 +35,7 @@ class ModuleHelper
   end
 
   def self.parse_domain( domain )
-    domain = URI( domain ).host
+    domain = URI( URI.encode(domain) ).host
     PublicSuffix.parse( domain ) if PublicSuffix.valid?( domain )
   end
 
