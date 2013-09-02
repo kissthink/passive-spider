@@ -25,6 +25,7 @@ class ModuleHelper
   end
 
   def self.same_domain?( target, result )
+    return false if result.nil?
     target.domain === result.domain
   end
 
